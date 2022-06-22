@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Github Profile</string>
+    <string name="label_search">Search People</string>
+    <string name="search_people">Search People</string>
 </resources>
