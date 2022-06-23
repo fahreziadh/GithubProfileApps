@@ -13,10 +13,10 @@ class GetUsersUseCase @Inject constructor(
     private val repository: GithubProfileRepository
 ) {
 
-    operator fun invoke(): Flow<Resource<SearchUserResponseDTO>> = flow {
+    operator fun invoke(query:String): Flow<Resource<SearchUserResponseDTO>> = flow {
         try {
             emit(Resource.Loading<SearchUserResponseDTO>())
-            val res = repository.getSearchUsers()
+            val res = repository.getSearchUsers(query)
             emit(Resource.Success<SearchUserResponseDTO>(res))
         } catch (e: HttpException) {
             emit(Resource.Error<SearchUserResponseDTO>(e.localizedMessage ?: "An unexpected error occured"))

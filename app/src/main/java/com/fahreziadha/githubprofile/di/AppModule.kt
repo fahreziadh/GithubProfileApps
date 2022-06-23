@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -20,12 +21,15 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePaprikaApi(): GithubProfileApi {
+    fun provideGithubProfileaApi(): GithubProfileApi {
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .client(
                 OkHttpClient().newBuilder()
-                    .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .callTimeout(15,TimeUnit.SECONDS)
+                    .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                    .connectTimeout(15,TimeUnit.SECONDS)
+                    .readTimeout(15,TimeUnit.SECONDS)
                     .build()
             )
             .addConverterFactory(GsonConverterFactory.create())
@@ -35,7 +39,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCoinRepository(api: GithubProfileApi): GithubProfileRepository {
+    fun provideGithubProfileRepository(api: GithubProfileApi): GithubProfileRepository {
         return GithubProfileRepositoryImpl(api)
     }
+
 }

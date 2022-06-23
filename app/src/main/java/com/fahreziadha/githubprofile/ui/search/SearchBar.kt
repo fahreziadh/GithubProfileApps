@@ -21,8 +21,8 @@ import com.fahreziadha.githubprofile.utils.CustomSurface
 
 @Composable
 fun SearchBar(
-    query: TextFieldValue,
-    onQueryChange: (TextFieldValue) -> Unit,
+    query: String,
+    onQueryChange: (String) -> Unit,
     searchFocused: Boolean,
     onSearchFocusChange: (Boolean) -> Unit,
     onClearQuery: () -> Unit,
@@ -39,7 +39,7 @@ fun SearchBar(
             .padding(horizontal = 21.dp, vertical = 8.dp)
     ) {
         Box(Modifier.fillMaxSize()) {
-            if (query.text.isEmpty()) {
+            if (query.isEmpty()) {
                 SearchHint()
             }
             Row(
@@ -105,7 +105,7 @@ private fun SearchBarPreview() {
     GithubProfileTheme {
         CustomSurface {
             SearchBar(
-                query = TextFieldValue(""),
+                query = "",
                 onQueryChange = { },
                 searchFocused = false,
                 onSearchFocusChange = { },
