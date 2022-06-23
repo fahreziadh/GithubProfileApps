@@ -1,18 +1,19 @@
 package com.fahreziadha.githubprofile.data.remote.dto
 
 
+import com.fahreziadha.githubprofile.domain.model.User
 import com.google.gson.annotations.SerializedName
 
 data class SearchUserResponseDTO(
     @SerializedName("incomplete_results")
     val incompleteResults: Boolean,
     @SerializedName("items")
-    val items: List<Item>,
+    val items: List<SearchUserResponseItemDTO>,
     @SerializedName("total_count")
     val totalCount: Int
 )
 
-data class Item(
+data class SearchUserResponseItemDTO(
     @SerializedName("avatar_url")
     val avatarUrl: String,
     @SerializedName("events_url")
@@ -52,3 +53,4 @@ data class Item(
     @SerializedName("url")
     val url: String
 )
+

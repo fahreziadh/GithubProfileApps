@@ -1,6 +1,7 @@
 package com.fahreziadha.githubprofile.data.remote.dto
 
 
+import com.fahreziadha.githubprofile.domain.model.User
 import com.google.gson.annotations.SerializedName
 
 data class UserResponseDTO(
@@ -69,3 +70,16 @@ data class UserResponseDTO(
     @SerializedName("url")
     val url: String
 )
+
+fun UserResponseDTO.toUser(): User {
+    return User(
+        id = id?:0,
+        name = name?:"",
+        login = login?:"",
+        location = location?:"",
+        bio = bio?:"",
+        email = email?:"",
+        avatarUrl = avatarUrl?:"",
+        company = company?:""
+    )
+}

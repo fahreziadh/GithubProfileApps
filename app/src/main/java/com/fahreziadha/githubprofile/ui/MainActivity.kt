@@ -4,7 +4,6 @@ import GithubProfileTheme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Text
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -26,10 +25,10 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screen.SearchScreen.route
                     ) {
                         composable(route = Screen.SearchScreen.route) {
-                            SearchScreen()
+                            SearchScreen(navController = navController)
                         }
                         composable(route = Screen.DetailScreen.route+"/{id}") {
-                            DetailScreen()
+                            DetailScreen(navController = navController)
                         }
                     }
                 }

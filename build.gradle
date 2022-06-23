@@ -3,10 +3,12 @@ buildscript {
     ext{
         compose_version = '1.0.1'
         ext.accompanist_version = '0.21.3-beta'
+        ext.lottieVersion = '5.2.0'
     }
     repositories {
         google()
         mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.2"

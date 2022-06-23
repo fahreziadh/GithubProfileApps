@@ -58,6 +58,7 @@ fun SearchBar(
                     }
                 }
                 BasicTextField(
+                    singleLine = true,
                     value = query,
                     onValueChange = onQueryChange,
                     modifier = Modifier

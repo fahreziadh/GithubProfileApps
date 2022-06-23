@@ -9,8 +9,8 @@ import javax.inject.Inject
 class GithubProfileRepositoryImpl @Inject constructor(
     private val api: GithubProfileApi
 ) : GithubProfileRepository {
-    override suspend fun getSearchUsers(query: String): SearchUserResponseDTO {
-        return api.getSearchUser(query)
+    override suspend fun getSearchUsers(query: String, per_page:Int, page: Int): SearchUserResponseDTO {
+        return api.getSearchUser(query = query, per_page = per_page, page = page)
     }
 
     override suspend fun getUser(username: String): UserResponseDTO {
