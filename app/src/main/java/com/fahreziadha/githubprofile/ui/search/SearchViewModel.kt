@@ -5,13 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fahreziadha.githubprofile.common.Resource
-import com.fahreziadha.githubprofile.data.remote.dto.UserResponseDTO
-import com.fahreziadha.githubprofile.domain.model.User
-import com.fahreziadha.githubprofile.domain.use_case.get_user.GetUserUseCase
 import com.fahreziadha.githubprofile.domain.use_case.get_users.GetUsersUseCase
 import com.fahreziadha.githubprofile.ui.search.state.SearchScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -43,10 +39,6 @@ class SearchViewModel @Inject constructor(
             getUsersUseCase(text.value, pageCount.value).onEach { result ->
                 when (result) {
                     is Resource.Success -> {
-                        if (result.data?.size == 0) {
-                            _screenState.value =
-                                SearchScreenState(isLoading = false, res = emptyList(), "isEmpty")
-                        }
 
                         result.data?.let {
                             _screenState.value = SearchScreenState(

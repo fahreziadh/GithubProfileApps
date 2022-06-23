@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                             SearchScreen(navController = navController)
                         }
                         composable(route = Screen.DetailScreen.route+"/{id}") {
-                            DetailScreen(navController = navController)
+                            DetailScreen()
                         }
                     }
                 }
