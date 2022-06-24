@@ -50,15 +50,15 @@ class SearchViewModel @Inject constructor(
     val cacheState: State<SearchHistoryResultState> = _cacheState
 
 
-    fun getUserByName(isLoadMore: Boolean = false) {
+    fun getUserByName(query: String = text.value, isLoadMore: Boolean = false) {
         if (isLoadMore) {
             pageCount.value++
         } else {
             pageCount.value = 1
         }
-        if (text.value != "") {
+        if (query != "") {
             var list = _screenState.value.res
-            getUsersUseCase(text.value, pageCount.value).onEach { result ->
+            getUsersUseCase(query, pageCount.value).onEach { result ->
                 when (result) {
                     is Resource.Success -> {
                         result.data?.let {

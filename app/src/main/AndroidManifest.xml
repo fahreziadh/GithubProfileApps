@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fahreziadha.githubprofile">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".GithubProfileApplication"
@@ -12,6 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GithubProfile">
+        <uses-library
+            android:name="android.test.runner"
+            android:required="false" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">

@@ -25,6 +25,7 @@ import com.fahreziadha.githubprofile.R
 import com.fahreziadha.githubprofile.data.remote.dto.UserResponseDTO
 import com.fahreziadha.githubprofile.domain.model.GithubRepository
 import com.fahreziadha.githubprofile.utils.CustomSurface
+import com.fahreziadha.githubprofile.utils.covertTimeToText
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
@@ -44,7 +45,7 @@ fun DetailScreen(viewModel: DetailViewModel = hiltViewModel(), modifier: Modifie
                 )
             }
             itemsIndexed(githubListRepository) { index, githubRepository ->
-                GitListRepository(onClick = {}, rep = githubRepository)
+                GitRepositoryItem(onClick = {}, rep = githubRepository)
 
                 if (index != githubListRepository.size - 1) {
                     Divider(
@@ -59,7 +60,7 @@ fun DetailScreen(viewModel: DetailViewModel = hiltViewModel(), modifier: Modifie
 }
 
 @Composable
-fun GitListRepository(
+fun GitRepositoryItem(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     rep: GithubRepository
@@ -79,7 +80,6 @@ fun GitListRepository(
                     .size(40.dp)
                     .clip(CircleShape)
             )
-
             Column(modifier = modifier.padding(horizontal = 8.dp)) {
                 Text(
                     text = rep.rep_name.take(14) ?: "",
@@ -95,6 +95,11 @@ fun GitListRepository(
                 )
                 Spacer(modifier = modifier.padding(4.dp))
                 Row {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_star),
+                        contentDescription = "",
+                        modifier = modifier.size(14.dp)
+                    )
                     Text(
                         text = rep.rep_stargazers_count.toString(),
                         fontSize = 12.sp,
@@ -103,7 +108,7 @@ fun GitListRepository(
                     )
                     Spacer(modifier = modifier.padding(horizontal = 8.dp))
                     Text(
-                        text = rep.rep_updated_at ?: "null",
+                        text = covertTimeToText(rep.rep_updated_at) ?: "null",
                         fontSize = 12.sp,
                         maxLines = 1,
                         fontWeight = FontWeight.Light

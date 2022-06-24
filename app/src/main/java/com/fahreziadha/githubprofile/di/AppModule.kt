@@ -70,7 +70,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideSearchRepository(db: SearchDatabase): SearchRepository {
-        return SearchRepositoryImpl(db.searchDao)
+        return SearchRepositoryImpl(db.searchDao())
     }
 
     @Provides
