@@ -6,6 +6,8 @@ buildscript {
         ext.lottieVersion = '5.2.0'
         ext.roomVersion = '2.4.2'
         ext.coroutines_version = '1.6.3'
+        ext.retrofit_version = '2.9.0'
+        lifecycle_version = '2.4.1'
     }
     repositories {
         google()
