@@ -1,7 +1,6 @@
 package com.fahreziadha.githubprofile.data.remote.dto
 
 
-import com.fahreziadha.githubprofile.domain.model.User
 import com.google.gson.annotations.SerializedName
 
 data class SearchUserResponseDTO(

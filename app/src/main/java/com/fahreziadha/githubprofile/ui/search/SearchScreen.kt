@@ -24,6 +24,7 @@ fun SearchScreen(
     val text by viewModel.text.collectAsState()
     val pageCount by viewModel.pageCount.collectAsState()
     val result by viewModel.result.collectAsState(initial = "")
+    val searchState = viewModel.screenState.value
 
     CustomSurface(modifier = Modifier.fillMaxSize()) {
         Column {
@@ -39,11 +40,15 @@ fun SearchScreen(
             if (viewModel.screenState.value.isLoading && pageCount == 1) {
                 Loader(R.raw.loading)
             }
-            viewModel.screenState.value.res?.let {
-                if (it.isEmpty() && text != "" && viewModel.screenState.value.error == "isEmpty") {
-                    Loader(R.raw.not_found)
-                }
-                SearchResult(item = it,navController=navController)
+
+            if (searchState.res.isEmpty() && text != "" && searchState.error == "isEmpty") {
+                Loader(R.raw.not_found)
+            }
+
+            if (text.isNotEmpty()) {
+                SearchResult(item = searchState.res, navController = navController)
+            } else {
+                SearchHistoryResult(navController = navController)
             }
         }
     }

@@ -2,13 +2,16 @@ package com.fahreziadha.githubprofile.data.local.data_source
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.fahreziadha.githubprofile.data.remote.dto.UserResponseDTO
+import com.fahreziadha.githubprofile.domain.model.CacheUser
+import com.fahreziadha.githubprofile.domain.model.User
 
 @Database(
-    entities = [UserResponseDTO::class],
+    entities = [CacheUser::class],
     version = 1
 )
+
 abstract class SearchDatabase : RoomDatabase() {
+
     abstract val searchDao: SearchDao
 
     companion object{
