@@ -51,7 +51,7 @@ fun SearchResult(
                 contentColor = Color.White,
                 scale = true,
                 // Change the color and shape
-                backgroundColor = MaterialTheme.colors.primary,
+                backgroundColor = GithubProfileTheme.colors.iconSecondary,
                 shape = MaterialTheme.shapes.small,
             )
         }) {
@@ -73,16 +73,20 @@ fun SearchResult(
                     itemsIndexed(item) { index, searchItem ->
                         SearchItem(
                             onClick = { navController.navigate(Screen.DetailScreen.route + "/${searchItem.login}") },
-                            user = searchItem
+                            user = searchItem,
+                            modifier = modifier
                         )
-                        Divider(
-                            color = GithubProfileTheme.colors.textSecondary.copy(alpha = 0.05f),
-                            thickness = 1.dp,
-                            modifier = modifier.padding(horizontal = 2.dp)
-                        )
-                        if (index == item.size - 1) {
-                            LoadMoreButton()
+
+                        if (index != item.size - 1) {
+                            Divider(
+                                color = GithubProfileTheme.colors.textSecondary.copy(alpha = 0.05f),
+                                thickness = 1.dp,
+                                modifier = modifier.padding(horizontal = 2.dp)
+                            )
                         }
+                    }
+                    item {
+                        if (item.isNotEmpty()) LoadMoreButton()
                     }
                 }
 

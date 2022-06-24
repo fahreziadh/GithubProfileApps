@@ -36,17 +36,22 @@ class SearchViewModel @Inject constructor(
             pageCount.value = 1
         }
         if (text.value != "") {
+            var list = _screenState.value.res
             getUsersUseCase(text.value, pageCount.value).onEach { result ->
                 when (result) {
                     is Resource.Success -> {
-
                         result.data?.let {
+                            if (isLoadMore) { //Check if is  from load more then add result the list
+                                list = _screenState.value.res + it
+                            } else {
+                                list = it
+                            }
                             _screenState.value = SearchScreenState(
                                 isLoading = false,
-                                res = _screenState.value.res + it
+                                res = list,
+                                if (list.isEmpty()) "isEmpty" else ""
                             )
                         }
-
                     }
                     is Resource.Error -> {
                         _screenState.value = SearchScreenState(
@@ -56,7 +61,6 @@ class SearchViewModel @Inject constructor(
                         )
                     }
                     is Resource.Loading -> {
-                        var list = _screenState.value.res
                         if (!isLoadMore) {
                             list = emptyList()
                         }
@@ -69,6 +73,8 @@ class SearchViewModel @Inject constructor(
                 }
             }.launchIn(viewModelScope)
         } else {
+            //if user didnt input anything
+
             _screenState.value = SearchScreenState(
                 isLoading = false,
                 emptyList(),

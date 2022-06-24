@@ -1,9 +1,11 @@
 package com.fahreziadha.githubprofile.di
 
 import com.fahreziadha.githubprofile.common.Constants
-import com.fahreziadha.githubprofile.data.remote.GithubProfileApi
+import com.fahreziadha.githubprofile.data.remote.GithubApi
 import com.fahreziadha.githubprofile.data.repository.GithubProfileRepositoryImpl
+import com.fahreziadha.githubprofile.data.repository.GithubRepRepositoryImpl
 import com.fahreziadha.githubprofile.domain.repository.GithubProfileRepository
+import com.fahreziadha.githubprofile.domain.repository.GithubRepRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,26 +23,32 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGithubProfileaApi(): GithubProfileApi {
+    fun provideGithubProfileaApi(): GithubApi {
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .client(
                 OkHttpClient().newBuilder()
-                    .callTimeout(15,TimeUnit.SECONDS)
+                    .callTimeout(15, TimeUnit.SECONDS)
                     .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
-                    .connectTimeout(15,TimeUnit.SECONDS)
-                    .readTimeout(15,TimeUnit.SECONDS)
+                    .connectTimeout(15, TimeUnit.SECONDS)
+                    .readTimeout(15, TimeUnit.SECONDS)
                     .build()
             )
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(GithubProfileApi::class.java)
+            .create(GithubApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideGithubProfileRepository(api: GithubProfileApi): GithubProfileRepository {
+    fun provideGithubProfileRepository(api: GithubApi): GithubProfileRepository {
         return GithubProfileRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGithubRepRepository(api: GithubApi): GithubRepRepository {
+        return GithubRepRepositoryImpl(api)
     }
 
 }
