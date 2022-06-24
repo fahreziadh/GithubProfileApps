@@ -1,4 +1,4 @@
-package com.fahreziadha.githubprofile.data.repository
+package com.fahreziadha.githubprofile.data.remote.repository
 
 import com.fahreziadha.githubprofile.data.remote.GithubApi
 import com.fahreziadha.githubprofile.data.remote.dto.GithubRepositoryResponseDTO

@@ -6,14 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fahreziadha.githubprofile.common.Resource
 import com.fahreziadha.githubprofile.domain.use_case.get_users.GetUsersUseCase
+import com.fahreziadha.githubprofile.domain.use_case.local.LocalUseCase
 import com.fahreziadha.githubprofile.ui.search.state.SearchScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getUsersUseCase: GetUsersUseCase
+    private val getUsersUseCase: GetUsersUseCase,
+    private val localUseCase: LocalUseCase
 ) : ViewModel() {
 
     val isRefreshing = MutableStateFlow(false)
@@ -24,6 +27,9 @@ class SearchViewModel @Inject constructor(
         .onEach {
             getUserByName()
         }
+
+    private var getLocaCachelJob: Job? = null
+
 
     private val _screenState = mutableStateOf(SearchScreenState(res = mutableListOf()))
     val screenState: State<SearchScreenState> = _screenState
@@ -86,5 +92,10 @@ class SearchViewModel @Inject constructor(
     fun refresh() {
         _screenState.value = SearchScreenState(isLoading = true, res = emptyList())
         getUserByName()
+    }
+
+    private fun getCacheSearch(){
+        getLocaCachelJob?.cancel()
+//        getLocaCachelJob=localUseCase.getListSearch().onEach {  }
     }
 }

@@ -1,9 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext{
+    ext {
         compose_version = '1.0.1'
         ext.accompanist_version = '0.21.3-beta'
         ext.lottieVersion = '5.2.0'
+        ext.roomVersion = '2.4.2'
     }
     repositories {
         google()

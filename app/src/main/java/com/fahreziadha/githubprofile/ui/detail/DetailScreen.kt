@@ -24,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.fahreziadha.githubprofile.R
 import com.fahreziadha.githubprofile.data.remote.dto.UserResponseDTO
 import com.fahreziadha.githubprofile.domain.model.GithubRepository
+import com.fahreziadha.githubprofile.utils.CustomSurface
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
@@ -63,51 +64,54 @@ fun GitListRepository(
     onClick: () -> Unit,
     rep: GithubRepository
 ) {
-
-    Row(
+    Box(
         modifier = modifier
-            .padding(vertical = 12.dp)
             .clickable(onClick = onClick)
             .fillMaxWidth()
     ) {
-        GlideImage(
-            imageModel = rep.owner_avatar,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-        )
-
-        Column(modifier = modifier.padding(horizontal = 8.dp)) {
-            Text(
-                text = rep.rep_name.take(14) ?: "",
-                fontSize = 16.sp,
-                maxLines = 1,
-                fontWeight = FontWeight.Bold,
+        Row(
+            modifier = modifier.padding(vertical = 12.dp)
+        ) {
+            GlideImage(
+                imageModel = rep.owner_avatar,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
             )
 
-            Text(
-                text = rep.rep_description,
-                maxLines = 1,
-                fontSize = 14.sp
-            )
-            Spacer(modifier = modifier.padding(4.dp))
-            Row {
+            Column(modifier = modifier.padding(horizontal = 8.dp)) {
                 Text(
-                    text = rep.rep_stargazers_count.toString(),
-                    fontSize = 12.sp,
+                    text = rep.rep_name.take(14) ?: "",
+                    fontSize = 16.sp,
                     maxLines = 1,
-                    fontWeight = FontWeight.Light
+                    fontWeight = FontWeight.Bold,
                 )
-                Spacer(modifier = modifier.padding(horizontal = 8.dp))
+
                 Text(
-                    text = rep.rep_updated_at ?: "null",
-                    fontSize = 12.sp,
+                    text = rep.rep_description,
                     maxLines = 1,
-                    fontWeight = FontWeight.Light
+                    fontSize = 14.sp
                 )
+                Spacer(modifier = modifier.padding(4.dp))
+                Row {
+                    Text(
+                        text = rep.rep_stargazers_count.toString(),
+                        fontSize = 12.sp,
+                        maxLines = 1,
+                        fontWeight = FontWeight.Light
+                    )
+                    Spacer(modifier = modifier.padding(horizontal = 8.dp))
+                    Text(
+                        text = rep.rep_updated_at ?: "null",
+                        fontSize = 12.sp,
+                        maxLines = 1,
+                        fontWeight = FontWeight.Light
+                    )
+                }
             }
         }
+
     }
 }
 
@@ -117,11 +121,11 @@ fun HeaderDetail(
     modifier: Modifier = Modifier,
     user: UserResponseDTO
 ) {
-    Row() {
+    Row {
         GlideImage(
             imageModel = user.avatarUrl,
             contentScale = ContentScale.Crop,
-            modifier = androidx.compose.ui.Modifier
+            modifier = modifier
                 .size(70.dp)
                 .clip(CircleShape)
         )
@@ -129,8 +133,8 @@ fun HeaderDetail(
         Spacer(modifier = modifier.padding(horizontal = 8.dp))
 
         Column() {
-            Text(text = user.name, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Text(text = "@" + user.login, fontSize = 12.sp)
+            Text(text = user.name ?: "", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text(text = "@" + user.login ?: "", fontSize = 12.sp)
             Spacer(modifier = modifier.padding(vertical = 8.dp))
             Text(text = user.bio ?: "")
             Spacer(modifier = modifier.padding(vertical = 8.dp))

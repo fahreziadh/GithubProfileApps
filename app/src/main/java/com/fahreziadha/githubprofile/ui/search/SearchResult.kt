@@ -65,7 +65,7 @@ fun SearchResult(
                 elevation = 4.dp,
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(start = 21.dp, end = 27.dp, top = 8.dp, bottom = 50.dp),
+                    .padding(start = 21.dp, end = 21.dp, top = 8.dp, bottom = 21.dp),
             ) {
                 LazyColumn(
                     modifier = modifier.padding(horizontal = 24.dp)

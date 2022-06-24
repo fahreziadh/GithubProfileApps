@@ -1,11 +1,17 @@
 package com.fahreziadha.githubprofile.di
 
+import android.app.Application
+import androidx.room.Room
 import com.fahreziadha.githubprofile.common.Constants
+import com.fahreziadha.githubprofile.data.local.data_source.SearchDatabase
+import com.fahreziadha.githubprofile.data.local.repository.SearchRepositoryImpl
 import com.fahreziadha.githubprofile.data.remote.GithubApi
-import com.fahreziadha.githubprofile.data.repository.GithubProfileRepositoryImpl
-import com.fahreziadha.githubprofile.data.repository.GithubRepRepositoryImpl
+import com.fahreziadha.githubprofile.data.remote.repository.GithubProfileRepositoryImpl
+import com.fahreziadha.githubprofile.data.remote.repository.GithubRepRepositoryImpl
 import com.fahreziadha.githubprofile.domain.repository.GithubProfileRepository
 import com.fahreziadha.githubprofile.domain.repository.GithubRepRepository
+import com.fahreziadha.githubprofile.domain.repository.SearchRepository
+import com.fahreziadha.githubprofile.domain.use_case.local.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,6 +55,33 @@ object AppModule {
     @Singleton
     fun provideGithubRepRepository(api: GithubApi): GithubRepRepository {
         return GithubRepRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNoteDatabase(app: Application): SearchDatabase {
+        return Room.databaseBuilder(
+            app,
+            SearchDatabase::class.java,
+            SearchDatabase.DATABASE_NAME
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchRepository(db: SearchDatabase): SearchRepository {
+        return SearchRepositoryImpl(db.searchDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchUseCases(repository: SearchRepository): LocalUseCase {
+        return LocalUseCase(
+            getListSearch = GetListSearch(repository = repository),
+            getSearch = GetSearch(repository = repository),
+            deleteSearch = DeleteSearch(repository = repository),
+            addSearch = AddSearch(repository = repository)
+        )
     }
 
 }

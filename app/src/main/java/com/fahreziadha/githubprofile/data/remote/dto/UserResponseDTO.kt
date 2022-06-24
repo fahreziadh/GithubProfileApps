@@ -73,13 +73,13 @@ data class UserResponseDTO(
 
 fun UserResponseDTO.toUser(): User {
     return User(
-        id = id?:0,
-        name = name?:"",
-        login = login?:"",
-        location = location?:"",
-        bio = bio?:"",
-        email = email?:"",
-        avatarUrl = avatarUrl?:"",
-        company = company?:""
+        id = id ?: 0,
+        name = name ?: "",
+        login = login ?: "",
+        location = location ?: "",
+        bio = bio ?: "",
+        email = email ?: "",
+        avatarUrl = avatarUrl ?: "",
+        company = company ?: ""
     )
 }

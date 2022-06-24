@@ -18,7 +18,7 @@ class GetUsersUseCase @Inject constructor(
     operator fun invoke(query: String, page: Int): Flow<Resource<List<User>>> = flow {
         try {
             emit(Resource.Loading<List<User>>())
-            val searchUserRes = repository.getSearchUsers(query, per_page = 5, page)
+            val searchUserRes = repository.getSearchUsers(query, per_page = 10, page)
             val list = mutableListOf<User>()
             searchUserRes.items.map { searchUser ->
                 val detailUserRes = repository.getUser(searchUser.login)
