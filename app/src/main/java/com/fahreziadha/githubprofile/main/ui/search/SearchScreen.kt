@@ -16,6 +16,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.fahreziadha.githubprofile.R
+import com.fahreziadha.githubprofile.main.ui.components.Loader
 import com.fahreziadha.githubprofile.ui.utils.CustomSurface
 import com.google.accompanist.insets.statusBarsPadding
 
@@ -43,8 +44,11 @@ fun SearchScreen(
             )
             when (uiState) {
                 is SearchScreenState.Loading -> Loader(loading = R.raw.loading)
-                is SearchScreenState.Error -> Loader(loading = R.raw.not_found)
+                is SearchScreenState.Error -> {}
                 is SearchScreenState.Success -> {
+                    if(uiState.res.isEmpty()){
+                        Loader(loading = R.raw.not_found)
+                    }
                     SearchResult(item = uiState.res, navController = navController)
                 }
                 is SearchScreenState.Idle -> {
@@ -61,25 +65,6 @@ fun SearchScreen(
             }
         }
     }
-}
-
-@Composable
-private fun Loader(loading: Int, modifier: Modifier = Modifier) {
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(loading))
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        LottieAnimation(
-            composition,
-            restartOnPlay = true,
-            iterations = 5,
-            alignment = Alignment.Center,
-            modifier = modifier.size(120.dp)
-        )
-    }
-
 }
 
 

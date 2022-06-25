@@ -26,11 +26,12 @@ import com.fahreziadha.githubprofile.R
 import com.fahreziadha.githubprofile.main.model.GithubReposResponseDTO
 import com.fahreziadha.githubprofile.main.model.GithubRepository
 import com.fahreziadha.githubprofile.main.model.UserResponseDTO
+import com.fahreziadha.githubprofile.main.ui.components.Loader
 import com.fahreziadha.githubprofile.ui.utils.covertTimeToText
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun DetailScreen(viewModel: DetailViewModel = hiltViewModel(), modifier: Modifier = Modifier) {
+fun DetailScreen(modifier: Modifier = Modifier,viewModel: DetailViewModel = hiltViewModel()) {
     val uiUserState = viewModel.uiUserState.collectAsState().value
     val uiReposState = viewModel.uiReposState.collectAsState().value
 
@@ -64,7 +65,7 @@ fun DetailScreen(viewModel: DetailViewModel = hiltViewModel(), modifier: Modifie
         when (uiReposState) {
             is DetailScreenReposState.Loading -> {
                 item {
-                    Text(text = "Loading...")
+                    Loader(loading = R.raw.loading)
                 }
             }
             is DetailScreenReposState.Success -> {
@@ -113,14 +114,14 @@ fun GitRepositoryItem(
             )
             Column(modifier = modifier.padding(horizontal = 8.dp)) {
                 Text(
-                    text = rep.name?.take(14) ?: "-",
+                    text = rep.name.take(14) ?: "-",
                     fontSize = 16.sp,
                     maxLines = 1,
                     fontWeight = FontWeight.Bold,
                 )
 
                 Text(
-                    text = rep?.description?:"-",
+                    text = rep.description ?: "-",
                     maxLines = 1,
                     fontSize = 14.sp
                 )
@@ -132,14 +133,14 @@ fun GitRepositoryItem(
                         modifier = modifier.size(14.dp)
                     )
                     Text(
-                        text = rep.stargazers_count?:"-",
+                        text = rep.stargazers_count ?: "-",
                         fontSize = 12.sp,
                         maxLines = 1,
                         fontWeight = FontWeight.Light
                     )
                     Spacer(modifier = modifier.padding(horizontal = 8.dp))
                     Text(
-                        text = rep.updated_at?.let { covertTimeToText(it) } ?: "null",
+                        text = covertTimeToText(rep.updated_at) ?: "null",
                         fontSize = 12.sp,
                         maxLines = 1,
                         fontWeight = FontWeight.Light
