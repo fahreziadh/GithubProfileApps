@@ -1,5 +1,3 @@
-
-
 # GithubProfile Apps
 
 Github Profile Apps
@@ -7,10 +5,6 @@ Github Profile Apps
 GithubProfile is an App to Search for profiles through github data, users can search and view profiles, repositories, & stats of all other users.
 
 I made this project during the assessment process as an Android Engineer at *Ajaib*. by following the requirements and specifications given.
-
-
-
-<img title="" src="/showcase.jpg" alt="x" width="288" data-align="inline">
 
 
 
@@ -22,21 +16,13 @@ I made this project during the assessment process as an Android Engineer at *Aja
 
 by utilizing kotlin flow technology, I created a simple function in the form of instant search, the search bar will detect typing done by the user 500ms after that and will immediately make a call to the rest api
 
-
-
 #### Search and Detail Screen
 
 on this page there is a list that accommodates the results of the github search api response which actually has some data that doesn't match the design guidelines given, but as engineers of course we have to be able to handle it well #peace:D
 
-
-
 #### Local Cache with Room
 
 every user who presses an item in the list will be directed to the detail page, the application will save it locally so that users can see it again even without being connected to the internet
-
-
-
-
 
 ## Data
 
@@ -44,31 +30,11 @@ every user who presses an item in the list will be directed to the detail page, 
 
 GithubProfile uses data directly from public api provided by github like `/search/user` & `/user/repos`
 
-
-
 ## Architecture
 
 ---
 
 The app is built with MVVM architecture and JetPack Compose for the ui also in a Redux-style, where each UI 'screen' has its own [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel), which exposes a single [StateFlow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/) containing the entire view state. Each [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) is responsible for subscribing to any data streams required for the view, as well as exposing functions which allow the UI to send events.
-
-Using the example of the search screen in the [`com.fahreziadha.githubprofile.main.ui.search`](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/search/SearchScreen.kt) package:
-
-- The ViewModel is implemented as [`SearchViewModel`]([GithubProfileApps/SearchViewModel.kt at master · fahreziadh/GithubProfileApps](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/search/SearchViewModel.kt)), which exposes a `StateFlow<SearchScreenState>` for the UI to observe.
-- [`SearchScreenState`]([GithubProfileApps/SearchViewModel.kt at master · fahreziadh/GithubProfileApps](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/search/SearchViewModel.kt)) contains the complete view state for the home screen as an [`@Immutable`](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Immutable) `data class`.
-- The Search Compose UI in [`SearchScreen.kt`]() uses [`SearchViewModel`]([GithubProfileApps/SearchViewModel.kt at master · fahreziadh/GithubProfileApps](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/search/SearchViewModel.kt)), and observes it's [`SearchScreenState`]([GithubProfileApps/SearchViewModel.kt at master · fahreziadh/GithubProfileApps](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/search/SearchViewModel.kt)) as Compose [State](https://developer.android.com/reference/kotlin/androidx/compose/runtime/State), using [`collectAsState()`](https://developer.android.com/reference/kotlin/androidx/compose/package-summary#collectasstate):
-
-```kotlin
-val viewModel: SearchViewModel= viewModel()
-val uiState by viewModel.uiState.collectAsState()
-```
-
-This pattern is used across the different screens:
-
-- **Search:** [`SearchScreen.kt`]([GithubProfileApps/SearchScreen.kt at master · fahreziadh/GithubProfileApps](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/search/SearchScreen.kt))
-- **Detail:** [`DetailScreen.kt`]([GithubProfileApps/DetailScreen.kt at master · fahreziadh/GithubProfileApps](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/detail/DetailScreen.kt))
-
-
 
 ## Stack
 
@@ -88,3 +54,5 @@ This pattern is used across the different screens:
 | JUnit                   | JUnit is a unit testing framework for the Java programming language                                                                                                                                                   |
 
 
+
+Thank You
