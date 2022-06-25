@@ -32,18 +32,20 @@ class UserRepositoryImpl @Inject constructor(
                 is Result.Success -> {
                     users.data.items.map { user ->
                         val res = remoteDataSource.getUser(user.login)
-                        if (res is Result.Success){
+                        if (res is Result.Success) {
                             println(res.data)
-                            listUser.add(User(
-                                id = res.data.id,
-                                name = res.data.name ?: "",
-                                login = res.data.login ?: "",
-                                location = res.data.location ?: "",
-                                bio = res.data.bio ?: "",
-                                email = res.data.email ?: "",
-                                avatarUrl = res.data.avatar_url ?: "",
-                                company = res.data.company ?: ""
-                            ))
+                            listUser.add(
+                                User(
+                                    id = res.data.id,
+                                    name = res.data.name ?: "",
+                                    login = res.data.login ?: "",
+                                    location = res.data.location ?: "",
+                                    bio = res.data.bio ?: "",
+                                    email = res.data.email ?: "",
+                                    avatarUrl = res.data.avatar_url ?: "",
+                                    company = res.data.company ?: ""
+                                )
+                            )
                         }
                     }
                 }
@@ -74,7 +76,7 @@ class UserRepositoryImpl @Inject constructor(
         localDataSource.deleteAllUser()
     }
 
-    override suspend fun saveUserCache(cacheUser: CacheUser) {
-        localDataSource.insertUser(cacheUser)
+    override suspend fun saveUserCache(cacheUser: CacheUser): Boolean {
+        return localDataSource.insertUser(cacheUser)
     }
 }

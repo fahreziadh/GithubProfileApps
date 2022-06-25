@@ -9,7 +9,7 @@ interface UserLocalDataSource {
 
     suspend fun getUserById(id: Int): CacheUser?
 
-    suspend fun insertUser(user: CacheUser)
+    suspend fun insertUser(user: CacheUser):Boolean
 
     suspend fun deleteAllUser()
 }

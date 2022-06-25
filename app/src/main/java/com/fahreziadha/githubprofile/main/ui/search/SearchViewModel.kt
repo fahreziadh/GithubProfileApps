@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.fahreziadha.githubprofile.main.model.CacheUser
+import com.fahreziadha.githubprofile.main.model.User
 import com.fahreziadha.githubprofile.main.usecase.cache.DeleteCacheUserUseCase
 import com.fahreziadha.githubprofile.main.usecase.cache.GetCacheUsersUseCase
 import com.fahreziadha.githubprofile.main.usecase.cache.InsertCacheUserUseCase
@@ -23,7 +24,6 @@ class SearchViewModel @Inject constructor(
     private val deleteCacheUserUseCase: DeleteCacheUserUseCase
 ) : ViewModel() {
 
-    val isRefreshing = MutableStateFlow(false)
     val pageCount = MutableStateFlow(1)
     val text = MutableStateFlow("")
 
@@ -45,15 +45,25 @@ class SearchViewModel @Inject constructor(
     val uiState: StateFlow<SearchScreenState> = _uiState
 
     fun getUsersByQuery(query: String = text.value, isLoadMore: Boolean = false) {
+        if (isLoadMore) {
+            pageCount.value++
+            _uiState.value = (SearchScreenState.Success(
+                (_uiState.value as SearchScreenState.Success).res,
+                isLoadMoreLoadingActive = true
+            ))
+        } else {
+            _uiState.value = SearchScreenState.Loading
+            pageCount.value = 1
+        }
 
-        if (isLoadMore) pageCount.value++
-        else pageCount.value = 1
-
-        _uiState.value = SearchScreenState.Loading
 
         loadingJob = viewModelScope.launch {
             val usersResult = getUsersUseCase(query = query, page = pageCount.value)
-            _uiState.value = (SearchScreenState.Success(usersResult))
+            _uiState.value =
+                (SearchScreenState.Success(
+                    if (!isLoadMore) usersResult else (_uiState.value as SearchScreenState.Success).res + usersResult,
+                    isLoadMoreLoadingActive = false
+                ))
         }
     }
 
@@ -63,12 +73,22 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    val uiStateCacheUser: LiveData<List<CacheUser>> = getCacheUsersUseCase()
+    val uiStateCacheUser: LiveData<SearchScreenState> = getCacheUsersUseCase().map { list ->
+        if (list.isEmpty()) {
+            SearchScreenState.Idle(emptyList())
+        } else {
+            SearchScreenState.Idle(list)
+        }
+    }
 
     fun clearUserCache() {
         viewModelScope.launch {
             deleteCacheUserUseCase()
         }
+    }
+
+    fun loadMore() {
+        getUsersByQuery(isLoadMore = true)
     }
 
     fun refresh() {

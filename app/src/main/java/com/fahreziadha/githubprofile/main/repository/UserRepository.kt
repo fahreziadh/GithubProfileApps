@@ -23,6 +23,6 @@ interface UserRepository {
 
     //local
     fun getCacheUsers(): LiveData<List<CacheUser>>
-    suspend fun saveUserCache(cacheUser: CacheUser)
+    suspend fun saveUserCache(cacheUser: CacheUser): Boolean
     suspend fun deleteAllCacheUsers()
 }

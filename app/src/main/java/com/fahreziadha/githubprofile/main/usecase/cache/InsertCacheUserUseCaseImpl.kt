@@ -7,7 +7,7 @@ import javax.inject.Inject
 class InsertCacheUserUseCaseImpl @Inject constructor(
     private val userRepository: UserRepository
 ) : InsertCacheUserUseCase {
-    override suspend fun invoke(cacheUser: CacheUser) {
-        userRepository.saveUserCache(cacheUser)
+    override suspend fun invoke(cacheUser: CacheUser):Boolean {
+        return userRepository.saveUserCache(cacheUser)
     }
 }

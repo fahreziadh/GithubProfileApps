@@ -1,4 +1,4 @@
-package com.fahreziadha.githubprofile
+package com.fahreziadha.githubprofile.util
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

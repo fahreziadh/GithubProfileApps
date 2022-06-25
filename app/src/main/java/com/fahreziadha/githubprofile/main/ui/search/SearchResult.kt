@@ -32,9 +32,8 @@ fun SearchResult(
     viewModel: SearchViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val isRefreshing by viewModel.isRefreshing.collectAsState()
     SwipeRefresh(
-        state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
+        state = rememberSwipeRefreshState(isRefreshing = false),
         onRefresh = {
             viewModel.refresh()
         }, indicator = { state, refreshTrigger ->

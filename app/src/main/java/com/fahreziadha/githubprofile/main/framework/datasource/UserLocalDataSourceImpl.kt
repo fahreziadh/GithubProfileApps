@@ -15,8 +15,9 @@ class UserLocalDataSourceImpl @Inject constructor(private val searchDao: SearchD
         return searchDao.getUserById(id)
     }
 
-    override suspend fun insertUser(user: CacheUser) {
+    override suspend fun insertUser(user: CacheUser):Boolean {
         searchDao.insertUser(user)
+        return true
     }
 
     override suspend fun deleteAllUser() {

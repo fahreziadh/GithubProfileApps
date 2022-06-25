@@ -7,6 +7,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -26,7 +27,6 @@ fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val text by viewModel.text.collectAsState()
-    val pageCount by viewModel.pageCount.collectAsState()
     val result by viewModel.result.collectAsState(initial = "")
     val uiState = viewModel.uiState.collectAsState().value
 
@@ -48,17 +48,17 @@ fun SearchScreen(
                     SearchResult(item = uiState.res, navController = navController)
                 }
                 is SearchScreenState.Idle -> {
-                    val uiState = viewModel.uiStateCacheUser.observeAsState().value
-                    uiState?.let {
-                        SearchHistoryResult(data = it, navController = navController)
+                    val cacheUiState = viewModel.uiStateCacheUser.observeAsState().value
+                    cacheUiState?.let {
+                        if (cacheUiState is SearchScreenState.Idle) {
+                            SearchHistoryResult(
+                                data = cacheUiState.res,
+                                navController = navController
+                            )
+                        }
                     }
                 }
             }
-
-//            if (text.isNotEmpty()) {
-//            } else {
-//                SearchHistoryResult(navController = navController)
-//            }
         }
     }
 }
