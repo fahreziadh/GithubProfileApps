@@ -38,7 +38,7 @@ class DetailViewModel @Inject constructor(
 
     private var loadingJob: Job? = null
 
-    private fun getUser(userName: String) {
+    fun getUser(userName: String) {
         _uiUserState.value = DetailScreenUserState.Loading
         loadingJob?.cancel()
         loadingJob = viewModelScope.launch {
@@ -57,7 +57,7 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun getUserRepository(userName: String) {
+    fun getUserRepository(userName: String) {
         _uiReposState.value = DetailScreenReposState.Loading
 
         loadingJob = viewModelScope.launch {

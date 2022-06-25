@@ -8,7 +8,7 @@ import com.fahreziadha.githubprofile.main.model.CacheUser
 @Database(
     entities = [CacheUser::class],
     exportSchema = false,
-    version = 1
+    version = 4
 )
 
 abstract class SearchDatabase : RoomDatabase() {

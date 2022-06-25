@@ -1,7 +1,6 @@
 package com.fahreziadha.githubprofile.main
 
-import com.fahreziadha.githubprofile.main.model.CacheUser
-import com.fahreziadha.githubprofile.main.model.User
+import com.fahreziadha.githubprofile.main.model.*
 
 val user1 = User(
     id = 1,
@@ -34,8 +33,6 @@ val user3 = User(
     company = "company3"
 )
 
-
-
 val cacheUser1 = CacheUser(
     id = 1,
     name = "user 1",
@@ -58,3 +55,82 @@ val cacheUser2 = CacheUser(
     company = "company2",
     timeStamp = 0
 )
+
+
+val getUserResponseDTO1 = GetUserResponseDTO(
+    false, emptyList(), 100
+)
+
+
+val userResponseDTO1 = UserResponseDTO(
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    1,
+    "1",
+    1,
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    1,
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    1,
+    1,
+    "1",
+    "1",
+    false,
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1"
+)
+
+
+val userResponseDTO2 = UserResponseDTO(
+    "2",
+    "2",
+    "2",
+    "2",
+    "2",
+    "2",
+    "2",
+    2,
+    "2",
+    2,
+    "2",
+    "2",
+    "2",
+    "2",
+    "2",
+    2,
+    "2",
+    "2",
+    "2",
+    "2",
+    "2",
+    2,
+    2,
+    "2",
+    "2",
+    false,
+    "2",
+    "2",
+    "2",
+    "2",
+    "2",
+    "2"
+)
+
+val githubReposResponseDTO1= GithubReposResponseDTO("", owner = userResponseDTO1,"","","")

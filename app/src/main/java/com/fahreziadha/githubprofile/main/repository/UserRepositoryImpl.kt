@@ -6,10 +6,8 @@ import com.fahreziadha.githubprofile.di.annotation.IODispatcher
 import com.fahreziadha.githubprofile.main.framework.datasource.UserLocalDataSource
 import com.fahreziadha.githubprofile.main.framework.datasource.UserRemoteDataSource
 import com.fahreziadha.githubprofile.main.model.*
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.withContext
 import com.fahreziadha.githubprofile.model.Result
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -37,13 +35,13 @@ class UserRepositoryImpl @Inject constructor(
                             listUser.add(
                                 User(
                                     id = res.data.id,
-                                    name = res.data.name ?: "",
-                                    login = res.data.login ?: "",
-                                    location = res.data.location ?: "",
-                                    bio = res.data.bio ?: "",
-                                    email = res.data.email ?: "",
-                                    avatarUrl = res.data.avatar_url ?: "",
-                                    company = res.data.company ?: ""
+                                    name = res.data.name,
+                                    login = res.data.login,
+                                    location = res.data.location,
+                                    bio = res.data.bio,
+                                    email = res.data.email,
+                                    avatarUrl = res.data.avatar_url,
+                                    company = res.data.company
                                 )
                             )
                         }
@@ -78,5 +76,16 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun saveUserCache(cacheUser: CacheUser): Boolean {
         return localDataSource.insertUser(cacheUser)
+    }
+    /**
+     * This is a dummy method, just to illustrate how to test
+     * coroutines launched in an injected scope.
+     */
+    fun getUserInANewCoroutine() {
+        appScope.launch(ioDispatcher) {
+            delay(1000)
+
+            val user = remoteDataSource.getUser("")
+        }
     }
 }

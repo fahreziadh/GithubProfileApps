@@ -37,7 +37,7 @@ fun SearchItem(
         Column(modifier = modifier.padding(horizontal = 8.dp)) {
             Row {
                 Text(
-                    text = user.name.take(14) ?: "",
+                    text = user.name?.take(14) ?: "",
                     fontSize = 16.sp,
                     maxLines = 1,
                     fontWeight = FontWeight.Bold,
