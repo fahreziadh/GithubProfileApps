@@ -10,7 +10,7 @@ I made this project during the assessment process as an Android Engineer at *Aja
 
 
 
-<img title="" src="file:///C:/Users/aji/AndroidStudioProjects/GithubProfile/showcase.jpg" alt="x" width="288" data-align="inline">
+<img title="" src="/showcase.jpg" alt="x" width="288" data-align="inline">
 
 
 
