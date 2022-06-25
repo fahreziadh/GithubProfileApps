@@ -1,68 +1,90 @@
-# Github Profile Apps
+
+
+# GithubProfile Apps
+
+Github Profile Apps
 
 GithubProfile is an App to Search for profiles through github data, users can search and view profiles, repositories, & stats of all other users.
 
-<img src="screenshots/jetsnack.gif"/>
+I made this project during the assessment process as an Android Engineer at *Ajaib*. by following the requirements and specifications given.
 
-### Status: 🚧 In progress 🚧
 
-Jetsnack is still under development and some screens are not yet implemented.
+
+<img title="" src="file:///C:/Users/aji/AndroidStudioProjects/GithubProfile/showcase.jpg" alt="x" width="288" data-align="inline">
+
+
 
 ## Features
 
-### Custom Design System
+---
 
-Jetsnack's major feature is demonstrating how to implement a custom design system. Jetsnack has a bespoke color system and does not use [Material color theming](https://material.io/design/color/the-color-system.html).
+#### Instant Search
 
-<img src="screenshots/color_system.png"/>
+by utilizing kotlin flow technology, I created a simple function in the form of instant search, the search bar will detect typing done by the user 500ms after that and will immediately make a call to the rest api
 
-This is implemented by:
 
-* [`JetsnackColorPalette`](app/src/main/java/com/example/jetsnack/ui/theme/Theme.kt#L114) a class modelling the desired color system.
-* [`JetsnackColorAmbient`](app/src/main/java/com/example/jetsnack/ui/theme/Theme.kt#L231) an [ambient](https://developer.android.com/reference/kotlin/androidx/compose/Ambient) holding the current color set.
-* [`ProvideJetsnackColors`](app/src/main/java/com/example/jetsnack/ui/theme/Theme.kt#L222) a composable function [providing](https://developer.android.com/reference/kotlin/androidx/compose/package-summary#Providers(androidx.compose.ProvidedValue,%20kotlin.Function0)) a `JetsnackColorPalette`
-* [`JetsnackTheme` object](app/src/main/java/com/example/jetsnack/ui/theme/Theme.kt#L104), providing convenient access to the current theme colors.
-* [`JetsnackTheme` composable](app/src/main/java/com/example/jetsnack/ui/theme/Theme.kt#L81), the app's theme. Note that while Jetsnack implements a custom color system, it still uses Material's shape and type theming.
 
-Jetsnack wraps Material components, customizing them to use its color system. See the [components package](app/src/main/java/com/example/jetsnack/ui/components) e.g. [`JetsnackButton`](app/src/main/java/com/example/jetsnack/ui/components/Button.kt). Jetsnack makes heavy use of gradients, see [`Gradient`](app/src/main/java/com/example/jetsnack/ui/components/Gradient.kt) for a number of helpful [`Modifier`](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier)s.
+#### Search and Detail Screen
 
-### Custom Layout
+on this page there is a list that accommodates the results of the github search api response which actually has some data that doesn't match the design guidelines given, but as engineers of course we have to be able to handle it well #peace:D
 
-<img src="screenshots/snack_details.gif"/>
 
-Jetsnack utilizes custom [`Layout`](https://developer.android.com/reference/kotlin/androidx/compose/ui/package-summary#layout_1)s to achieve its design. See:
 
-* [`CollapsingImageLayout`](app/src/main/java/com/example/jetsnack/ui/snackdetail/SnackDetail.kt#L274) shown above.
-* [`SearchCategory`](app/src/main/java/com/example/jetsnack/ui/home/search/Categories.kt#L97) custom positioning of an image and text items.
-* [`JetsnackBottomNavLayout`](app/src/main/java/com/example/jetsnack/ui/home/Home.kt#L170) a custom Bottom Navigation implementation which animates the width of selected/unselected items.
+#### Local Cache with Room
+
+every user who presses an item in the list will be directed to the detail page, the application will save it locally so that users can see it again even without being connected to the internet
+
+
+
+
 
 ## Data
 
-Domain types are modelled in the [model package](app/src/main/java/com/example/jetsnack/model), each containing static sample data exposed using fake `Repo`s objects.
+---
 
-Imagery is sourced from [Unsplash](https://unsplash.com/) and loaded using [coil-accompanist][coil-accompanist].
+GithubProfile uses data directly from public api provided by github like `/search/user` & `/user/repos`
 
-## Baseline Profiles
 
-For [Baseline profiles](https://developer.android.com/topic/performance/baselineprofiles), see the [compose-latest](https://github.com/android/compose-samples/tree/compose-latest/Jetsnack) branch.
 
-## License
+## Architecture
 
-```
-Copyright 2020 The Android Open Source Project
+---
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+The app is built with MVVM architecture and JetPack Compose for the ui also in a Redux-style, where each UI 'screen' has its own [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel), which exposes a single [StateFlow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/) containing the entire view state. Each [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) is responsible for subscribing to any data streams required for the view, as well as exposing functions which allow the UI to send events.
 
-    https://www.apache.org/licenses/LICENSE-2.0
+Using the example of the search screen in the [`com.fahreziadha.githubprofile.main.ui.search`](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/search/SearchScreen.kt) package:
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+- The ViewModel is implemented as [`SearchViewModel`]([GithubProfileApps/SearchViewModel.kt at master · fahreziadh/GithubProfileApps](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/search/SearchViewModel.kt)), which exposes a `StateFlow<SearchScreenState>` for the UI to observe.
+- [`SearchScreenState`]([GithubProfileApps/SearchViewModel.kt at master · fahreziadh/GithubProfileApps](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/search/SearchViewModel.kt)) contains the complete view state for the home screen as an [`@Immutable`](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Immutable) `data class`.
+- The Search Compose UI in [`SearchScreen.kt`]() uses [`SearchViewModel`]([GithubProfileApps/SearchViewModel.kt at master · fahreziadh/GithubProfileApps](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/search/SearchViewModel.kt)), and observes it's [`SearchScreenState`]([GithubProfileApps/SearchViewModel.kt at master · fahreziadh/GithubProfileApps](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/search/SearchViewModel.kt)) as Compose [State](https://developer.android.com/reference/kotlin/androidx/compose/runtime/State), using [`collectAsState()`](https://developer.android.com/reference/kotlin/androidx/compose/package-summary#collectasstate):
+
+```kotlin
+val viewModel: SearchViewModel= viewModel()
+val uiState by viewModel.uiState.collectAsState()
 ```
 
-[compose]: https://developer.android.com/jetpack/compose
-[coil-accompanist]: https://google.github.io/accompanist/coil/
+This pattern is used across the different screens:
+
+- **Search:** [`SearchScreen.kt`]([GithubProfileApps/SearchScreen.kt at master · fahreziadh/GithubProfileApps](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/search/SearchScreen.kt))
+- **Detail:** [`DetailScreen.kt`]([GithubProfileApps/DetailScreen.kt at master · fahreziadh/GithubProfileApps](https://github.com/fahreziadh/GithubProfileApps/blob/master/app/src/main/java/com/fahreziadha/githubprofile/main/ui/detail/DetailScreen.kt))
+
+
+
+## Stack
+
+---
+
+| Architecture Components | Android Architecture Components (AAC) is a new collection of libraries that contains the lifecycle-aware components.a                                                                                                 |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dagger Hilt             | Hilt provides a standard way to incorporate Dagger dependency injection into an Android application                                                                                                                   |
+| Jetpack Compose         | Jetpack Compose is Android’s modern toolkit for building native UI. It simplifies and accelerates UI development on Android. Quickly bring your app to life with less code, powerful tools, and intuitive Kotlin APIs |
+| Coroutine               | Asynchronous or non-blocking programming is an important part of the development landscape                                                                                                                            |
+| Retrofit                | A type-safe HTTP client for Android and Java. Introduction. Retrofit turns your HTTP API into a Java interface                                                                                                        |
+| Glide                   | ide is a fast and efficient open source media management and image loading framework for Android that wraps media decoding, memory and disk caching,                                                                  |
+| Room                    | Room is an ORM, Object Relational Mapping library. In other words, Room will map our database objects to Java objects                                                                                                 |
+| Lottie                  | Lottie is an open source animation file format that's tiny, high quality, interactive, and can be manipulated at runtime.                                                                                             |
+| Espresso                | Use Espresso to write concise, beautiful, and reliable Android UI tests                                                                                                                                               |
+| Mockito                 | Mockito is a mocking framework that tastes really good. It lets you write beautiful tests with a clean & simple API                                                                                                   |
+| JUnit                   | JUnit is a unit testing framework for the Java programming language                                                                                                                                                   |
+
+
